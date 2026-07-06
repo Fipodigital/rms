@@ -1,0 +1,35 @@
+[
+  {
+    "id": "ovr_2023_11_12_18_exerzitien_sonntagberg",
+    "title": "Exerzitien vom Sonntagberg",
+    "type": "event_block",
+    "dateFrom": "2023-11-12",
+    "dateTo": "2023-11-18",
+    "action": "replace_slots",
+    "priority": 100,
+    "description": "Radioexerzitien mit Pfr. Frank Cöppicus-Röttger im Foyer de Charité, Haus am Sonntagberg.",
+    "notes": "Sostituisce più slot ordinari durante la settimana con una sequenza di Vortrag numerati. Da modellare come evento speciale con episodi multipli."
+  },
+  {
+    "id": "ovr_2023_12_02_adventtreffen_ce_suedtirol",
+    "title": "Adventtreffen der Charismatischen Erneuerung Südtirol",
+    "type": "event_day",
+    "dateFrom": "2023-12-02",
+    "dateTo": "2023-12-02",
+    "action": "replace_slots",
+    "priority": 100,
+    "description": "Wir, die Kirche – unsere Identität als Kinder Gottes und Braut Christi, mit Janine und Richi Febres Landauro.",
+    "notes": "Evento live dalla Cusanusakademie Brixen con blocchi alle 09:00, 14:00 e 17:00."
+  },
+  {
+    "id": "ovr_2023_11_30_apostel_andreas_fest",
+    "title": "Apostel-Andreas-Fest",
+    "type": "event_day",
+    "dateFrom": "2023-11-30",
+    "dateTo": "2023-11-30",
+    "action": "insert_and_replace_slots",
+    "priority": 90,
+    "description": "Lobpreis, Katechese, Anbetung, Rosenkranz, Lichterprozession und Hl. Messe mit Festpredigt.",
+    "notes": "Esempio di giornata liturgica speciale con blocchi consecutivi nel tardo pomeriggio e sera."
+  }
+]
