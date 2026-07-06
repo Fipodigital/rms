@@ -1,0 +1,81 @@
+[
+  {
+    "id": "ep_2023_11_02_glaubensforum_sterben_auferstehung",
+    "sendungId": "snd_glaubensforum",
+    "date": "2023-11-02",
+    "startTime": "09:00",
+    "title": "Vom Sterben über das Grab hinaus bis hin zur Auferstehung",
+    "speaker": "Pfr. Christoph Haider",
+    "language": "de"
+  },
+  {
+    "id": "ep_2023_11_03_glaubensforum_frau_betet",
+    "sendungId": "snd_glaubensforum",
+    "date": "2023-11-03",
+    "startTime": "09:00",
+    "title": "Wenn eine Frau für ihren Mann betet",
+    "speaker": "Dr. Margarethe Profunser",
+    "language": "de"
+  },
+  {
+    "id": "ep_2023_11_06_glaubensforum_karl_borromaeus",
+    "sendungId": "snd_glaubensforum",
+    "date": "2023-11-06",
+    "startTime": "09:00",
+    "title": "Ein gutes Wort aus dem Mund des hl. Karl Borromäus",
+    "speaker": "Pfr. Dr. Horst Walter",
+    "language": "de"
+  },
+  {
+    "id": "ep_2023_11_08_credo_dogmatik",
+    "sendungId": "snd_credo",
+    "date": "2023-11-08",
+    "startTime": "20:30",
+    "title": "Radioakademie – Dogmatik",
+    "speaker": "Pfr. Winfried Abel",
+    "language": "de"
+  },
+  {
+    "id": "ep_2023_11_10_im_focus_benedikt_xvi_9",
+    "sendungId": "snd_im_focus",
+    "date": "2023-11-10",
+    "startTime": "13:00",
+    "seriesTitle": "Bleibende Bedeutung von Papst Benedikt XVI",
+    "episodeNumber": 9,
+    "title": "Jesus Christus – Erlöser oder Befreier",
+    "speaker": "Prälat Prof. Dr. Markus Graulich SDB",
+    "language": "de"
+  },
+  {
+    "id": "ep_2023_11_20_bei_uns_zu_gast_berufung_1",
+    "sendungId": "snd_bei_uns_zu_gast",
+    "date": "2023-11-20",
+    "startTime": "13:15",
+    "seriesTitle": "Berufung",
+    "episodeNumber": 1,
+    "title": "Wie weit ist der Weg eines Menschen, sich für Gott zur Verfügung zu stellen?",
+    "speaker": "Sr. Christina Blätterbinder SSpS",
+    "language": "de"
+  },
+  {
+    "id": "ep_2023_11_21_bei_uns_zu_gast_musik_seele",
+    "sendungId": "snd_bei_uns_zu_gast",
+    "date": "2023-11-21",
+    "startTime": "13:00",
+    "title": "Musik, die die Seele berührt",
+    "speaker": "Eva-Maria Klöhr",
+    "description": "Liedermacherin und Klangpädagogin; Einblick in musikalisches Wirken und pädagogisch-therapeutische Arbeit mit Musik und Klang.",
+    "language": "de"
+  },
+  {
+    "id": "ep_2023_11_24_im_focus_benedikt_xvi_11",
+    "sendungId": "snd_im_focus",
+    "date": "2023-11-24",
+    "startTime": "13:00",
+    "seriesTitle": "Bleibende Bedeutung von Papst Benedikt XVI",
+    "episodeNumber": 11,
+    "title": "Maria, Modell für die Kirche",
+    "speaker": "Prof. DDr. Ralph Weimann",
+    "language": "de"
+  }
+]
