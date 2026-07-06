@@ -13,7 +13,8 @@ button { cursor: pointer; }
 .app-shell { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; background: radial-gradient(circle at top left, rgba(28,111,168,.18), transparent 28rem), linear-gradient(135deg,#f7fbfd 0%,#e9f2f7 100%); }
 .sidebar { display: flex; flex-direction: column; gap: 2rem; padding: 1.5rem; background: rgba(255,255,255,.72); border-right: 1px solid rgba(15,76,129,.12); backdrop-filter: blur(24px); }
 .brand-block { display: flex; align-items: center; gap: .9rem; }
-.brand-mark { display: grid; place-items: center; width: 3.1rem; height: 3.1rem; border-radius: 1.1rem; background: linear-gradient(135deg,#0f4c81,#2e89c8); color: #fff; font-size: 1.5rem; font-weight: 800; box-shadow: 0 18px 38px rgba(15,76,129,.24); }
+.brand-mark { display: grid; place-items: center; width: 3.1rem; height: 3.1rem; overflow: hidden; border-radius: 1.1rem; background: linear-gradient(135deg,#0f4c81,#2e89c8); color: #fff; font-size: 1.5rem; font-weight: 800; box-shadow: 0 18px 38px rgba(15,76,129,.24); }
+.brand-mark img { width: 100%; height: 100%; object-fit: contain; background: white; }
 h1,h2,h3,p { margin-top: 0; }
 .brand-block h1,.topbar h2,.hero-panel h3,.panel h3 { margin: 0; }
 .eyebrow { margin: 0 0 .25rem; color: #6c7d8f; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
@@ -32,9 +33,10 @@ h1,h2,h3,p { margin-top: 0; }
 .danger-button { padding: .75rem 1rem; color: #fff; background: #b42318; }
 .hero-panel,.panel,.metric-card { border: 1px solid rgba(15,76,129,.1); border-radius: 1.5rem; background: rgba(255,255,255,.86); box-shadow: 0 24px 80px rgba(29,57,82,.08); }
 .hero-panel { display: flex; align-items: end; justify-content: space-between; gap: 2rem; padding: 1.5rem; background: linear-gradient(135deg,rgba(15,76,129,.94),rgba(46,137,200,.82)),#0f4c81; color: #fff; }
+.hero-panel > div { min-width: 0; flex: 1; }
 .hero-panel .eyebrow,.hero-panel p { color: rgba(255,255,255,.78); }
-.hero-panel h3 { font-size: clamp(1.8rem,3vw,3rem); max-width: 720px; }
-.hero-panel p { margin-bottom: 0; max-width: 720px; line-height: 1.6; }
+.hero-panel h3 { font-size: clamp(1.8rem,3vw,3rem); max-width: none; white-space: normal; overflow-wrap: normal; }
+.hero-panel p { margin-bottom: 0; max-width: 900px; line-height: 1.6; }
 .metric-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 1rem; }
 .metric-card { padding: 1.1rem; }
 .metric-card span { color: #6c7d8f; font-size: .8rem; font-weight: 700; text-transform: uppercase; }
@@ -46,7 +48,7 @@ h1,h2,h3,p { margin-top: 0; }
 .panel { padding: 1.25rem; }
 .panel-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
 .timeline { display: flex; flex-direction: column; gap: .9rem; }
-.timeline-row { display: grid; grid-template-columns: 4rem 1rem 1fr; align-items: start; gap: .75rem; }
+.timeline-row { display: grid; grid-template-columns: 7rem 1rem 1fr; align-items: start; gap: .75rem; }
 .timeline-row time { color: #0f4c81; font-weight: 800; }
 .timeline-node { width: .78rem; height: .78rem; margin-top: .2rem; border: 3px solid #9ed0ee; border-radius: 999px; background: #fff; }
 .sendung-list,.table-list { display: flex; flex-direction: column; gap: .7rem; }
@@ -68,5 +70,7 @@ h1,h2,h3,p { margin-top: 0; }
 .calendar-day { min-height: 180px; padding: .85rem; border-radius: 1rem; background: #f6fafc; }
 .calendar-day strong { display: block; margin-bottom: .7rem; color: #0f4c81; }
 .calendar-day p { margin: 0 0 .55rem; color: #4d6175; }
+.logo-preview { display: grid; place-items: center; width: 9rem; height: 9rem; border-radius: 1.5rem; background: #edf6fc; color: #0f4c81; font-size: 2.4rem; font-weight: 800; overflow: hidden; }
+.logo-preview img { width: 100%; height: 100%; object-fit: contain; background: white; }
 input[type="file"] { padding: 1rem; border: 1px dashed rgba(15,76,129,.3); border-radius: 1rem; background: #f6fafc; }
 @media (max-width: 980px) { .app-shell { grid-template-columns: 1fr; } .sidebar { position: static; } .navigation { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); } .metric-grid,.main-grid,.workspace-grid { grid-template-columns: 1fr; } .hero-panel,.topbar,.panel-header { align-items: start; flex-direction: column; } .calendar-grid { grid-template-columns: 1fr; } }
