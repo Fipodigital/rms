@@ -30,27 +30,29 @@ export type Episode = {
   language: 'de' | 'it' | 'multi'
 }
 
+const internalSource = 'internal'
+
 export const sendungen: Sendung[] = [
-  { id: 'snd_glaubensforum', title: 'Glaubensforum', category: 'Glaube und Katechese', language: 'de', source: 'local', active: true },
-  { id: 'snd_lebenshilfe', title: 'Lebenshilfe', category: 'Lebenshilfe', language: 'de', source: 'mixed', active: true },
-  { id: 'snd_spiritualitaet', title: 'Spiritualität', category: 'Spiritualität', language: 'de', source: 'mixed', active: true },
-  { id: 'snd_credo', title: 'Credo', category: 'Glaubenslehre', language: 'de', source: 'mixed', active: true },
-  { id: 'snd_im_focus', title: 'Im Focus', category: 'Vertiefung', language: 'de', source: 'mixed', active: true },
-  { id: 'snd_bei_uns_zu_gast', title: 'Bei uns zu Gast', category: 'Interview', language: 'de', source: 'local', active: true },
-  { id: 'snd_buechermagazin', title: 'Büchermagazin', category: 'Bücher', language: 'de', source: 'mixed', active: true },
-  { id: 'snd_musikmagazin', title: 'Musikmagazin', category: 'Musik', language: 'de', source: 'mixed', active: true },
-  { id: 'snd_hoamatklang', title: 'Hoamatklång', category: 'Musik und Heimat', language: 'de', source: 'local', active: true },
-  { id: 'snd_jugend_xpect', title: 'Jugend Xpect', category: 'Jugend', language: 'de', source: 'local', active: true },
-  { id: 'snd_radio_vatikan_nachrichten', title: 'Radio Vatikan Nachrichten', category: 'Nachrichten', language: 'de', source: 'radio_vatikan', active: true },
-  { id: 'snd_radio_vatikan_magazin', title: 'Radio Vatikan Magazin', category: 'Nachrichten', language: 'de', source: 'radio_vatikan', active: true },
-  { id: 'snd_rosenkranz', title: 'Rosenkranz', category: 'Gebet', language: 'de', source: 'local', active: true },
-  { id: 'snd_heilige_messe', title: 'Heilige Messe', category: 'Liturgie', language: 'de', source: 'mixed', active: true },
-  { id: 'snd_angelus', title: 'Angelus', category: 'Gebet', language: 'de', source: 'radio_vatikan', active: true },
-  { id: 'snd_bibelschule', title: 'Bibelschule', category: 'Bibel', language: 'de', source: 'mixed', active: true },
-  { id: 'snd_standpunkt', title: 'Standpunkt', category: 'Gesellschaft und Glaube', language: 'de', source: 'mixed', active: true },
-  { id: 'snd_kirche_im_aufbruch', title: 'Kirche im Aufbruch', category: 'Kirche', language: 'de', source: 'mixed', active: true },
-  { id: 'snd_weltkirche_aktuell', title: 'Weltkirche aktuell', category: 'Weltkirche', language: 'de', source: 'external', active: true },
-  { id: 'snd_loretto_on_air', title: 'Loretto On Air', category: 'Jugend und Kirche', language: 'de', source: 'external', active: true },
+  { id: 'snd_glaubensforum', title: 'Glaubensforum', category: 'Glaube und Katechese', language: 'de', source: internalSource, active: true },
+  { id: 'snd_lebenshilfe', title: 'Lebenshilfe', category: 'Lebenshilfe', language: 'de', source: internalSource, active: true },
+  { id: 'snd_spiritualitaet', title: 'Spiritualität', category: 'Spiritualität', language: 'de', source: internalSource, active: true },
+  { id: 'snd_credo', title: 'Credo', category: 'Glaubenslehre', language: 'de', source: internalSource, active: true },
+  { id: 'snd_im_focus', title: 'Im Focus', category: 'Vertiefung', language: 'de', source: internalSource, active: true },
+  { id: 'snd_bei_uns_zu_gast', title: 'Bei uns zu Gast', category: 'Interview', language: 'de', source: internalSource, active: true },
+  { id: 'snd_buechermagazin', title: 'Büchermagazin', category: 'Bücher', language: 'de', source: internalSource, active: true },
+  { id: 'snd_musikmagazin', title: 'Musikmagazin', category: 'Musik', language: 'de', source: internalSource, active: true },
+  { id: 'snd_hoamatklang', title: 'Hoamatklång', category: 'Musik und Heimat', language: 'de', source: internalSource, active: true },
+  { id: 'snd_jugend_xpect', title: 'Jugend Xpect', category: 'Jugend', language: 'de', source: internalSource, active: true },
+  { id: 'snd_radio_vatikan_nachrichten', title: 'Radio Vatikan Nachrichten', category: 'Nachrichten', language: 'de', source: internalSource, active: true },
+  { id: 'snd_radio_vatikan_magazin', title: 'Radio Vatikan Magazin', category: 'Nachrichten', language: 'de', source: internalSource, active: true },
+  { id: 'snd_rosenkranz', title: 'Rosenkranz', category: 'Gebet', language: 'de', source: internalSource, active: true },
+  { id: 'snd_heilige_messe', title: 'Heilige Messe', category: 'Liturgie', language: 'de', source: internalSource, active: true },
+  { id: 'snd_angelus', title: 'Angelus', category: 'Gebet', language: 'de', source: internalSource, active: true },
+  { id: 'snd_bibelschule', title: 'Bibelschule', category: 'Bibel', language: 'de', source: internalSource, active: true },
+  { id: 'snd_standpunkt', title: 'Standpunkt', category: 'Gesellschaft und Glaube', language: 'de', source: internalSource, active: true },
+  { id: 'snd_kirche_im_aufbruch', title: 'Kirche im Aufbruch', category: 'Kirche', language: 'de', source: internalSource, active: true },
+  { id: 'snd_weltkirche_aktuell', title: 'Weltkirche aktuell', category: 'Weltkirche', language: 'de', source: internalSource, active: true },
+  { id: 'snd_loretto_on_air', title: 'Loretto On Air', category: 'Jugend und Kirche', language: 'de', source: internalSource, active: true },
 ]
 
 export const scheduleRules: ScheduleRule[] = [
