@@ -1,5 +1,6 @@
 import { useRef, useState, type DragEvent, type PointerEvent } from 'react'
 import { Pencil, Trash2 } from 'lucide-react'
+import './ios-drag.css'
 
 export type PreviewRow = {
   id: string
@@ -69,6 +70,7 @@ export function InteractivePreview({ rows, onEdit, onMove, onDelete }: Props) {
   function touchDragStart(event: PointerEvent<HTMLSpanElement>, row: PreviewRow) {
     if (event.pointerType === 'mouse') return
     event.preventDefault()
+    event.stopPropagation()
     event.currentTarget.setPointerCapture(event.pointerId)
     touchRow.current = row
     setTouchDragging(row)
@@ -80,6 +82,7 @@ export function InteractivePreview({ rows, onEdit, onMove, onDelete }: Props) {
   function touchDragMove(event: PointerEvent<HTMLSpanElement>) {
     if (!touchRow.current) return
     event.preventDefault()
+    event.stopPropagation()
     const target = document.elementFromPoint(event.clientX, event.clientY)?.closest<HTMLElement>('[data-preview-date]')
     setDragOverDate(target?.dataset.previewDate || null)
   }
@@ -88,6 +91,7 @@ export function InteractivePreview({ rows, onEdit, onMove, onDelete }: Props) {
     const row = touchRow.current
     if (!row) return
     event.preventDefault()
+    event.stopPropagation()
     const target = document.elementFromPoint(event.clientX, event.clientY)?.closest<HTMLElement>('[data-preview-date]')
     const targetDate = target?.dataset.previewDate
     touchRow.current = null
@@ -128,6 +132,7 @@ export function InteractivePreview({ rows, onEdit, onMove, onDelete }: Props) {
             >
               <span
                 className="drag-handle"
+                role="button"
                 aria-label={`Sposta ${row.title}`}
                 onPointerDown={(event) => touchDragStart(event, row)}
                 onPointerMove={touchDragMove}
