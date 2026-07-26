@@ -29,7 +29,9 @@ function grouped(rows: PreviewRow[]) {
 export function InteractivePreview({ rows, onEdit, onMove, onDelete }: Props) {
   const [openRow, setOpenRow] = useState<string | null>(null)
   const [dragOverDate, setDragOverDate] = useState<string | null>(null)
+  const [touchDragging, setTouchDragging] = useState<PreviewRow | null>(null)
   const pointerStart = useRef<{ id: string; x: number; y: number } | null>(null)
+  const touchRow = useRef<PreviewRow | null>(null)
   const groups = grouped(rows)
 
   function startDrag(event: DragEvent<HTMLButtonElement>, row: PreviewRow) {
@@ -57,19 +59,51 @@ export function InteractivePreview({ rows, onEdit, onMove, onDelete }: Props) {
   function pointerUp(event: PointerEvent<HTMLDivElement>, row: PreviewRow) {
     const start = pointerStart.current
     pointerStart.current = null
-    if (!start || start.id !== row.id) return
+    if (!start || start.id !== row.id || touchDragging) return
     const dx = event.clientX - start.x
     const dy = event.clientY - start.y
     if (Math.abs(dx) < Math.abs(dy) || Math.abs(dx) < 45) return
     setOpenRow(dx < 0 ? row.id : null)
   }
 
-  return <div className="timeline preview-scroll interactive-preview">
+  function touchDragStart(event: PointerEvent<HTMLSpanElement>, row: PreviewRow) {
+    if (event.pointerType === 'mouse') return
+    event.preventDefault()
+    event.currentTarget.setPointerCapture(event.pointerId)
+    touchRow.current = row
+    setTouchDragging(row)
+    setOpenRow(null)
+    const target = document.elementFromPoint(event.clientX, event.clientY)?.closest<HTMLElement>('[data-preview-date]')
+    setDragOverDate(target?.dataset.previewDate || null)
+  }
+
+  function touchDragMove(event: PointerEvent<HTMLSpanElement>) {
+    if (!touchRow.current) return
+    event.preventDefault()
+    const target = document.elementFromPoint(event.clientX, event.clientY)?.closest<HTMLElement>('[data-preview-date]')
+    setDragOverDate(target?.dataset.previewDate || null)
+  }
+
+  function touchDragEnd(event: PointerEvent<HTMLSpanElement>) {
+    const row = touchRow.current
+    if (!row) return
+    event.preventDefault()
+    const target = document.elementFromPoint(event.clientX, event.clientY)?.closest<HTMLElement>('[data-preview-date]')
+    const targetDate = target?.dataset.previewDate
+    touchRow.current = null
+    setTouchDragging(null)
+    setDragOverDate(null)
+    if (targetDate && targetDate !== row.date) onMove(row, targetDate)
+  }
+
+  return <div className={`timeline preview-scroll interactive-preview${touchDragging ? ' is-touch-dragging' : ''}`}>
+    {touchDragging && <div className="touch-drag-banner">Trascina sul giorno desiderato</div>}
     {Object.entries(groups).map(([key, items]) => {
       const [date, day] = key.split('|')
       const activeDrop = dragOverDate === date
       return <section
         key={key}
+        data-preview-date={date}
         className={`preview-day${activeDrop ? ' is-drop-target' : ''}`}
         onDragOver={(event) => { event.preventDefault(); setDragOverDate(date) }}
         onDragLeave={() => setDragOverDate((current) => current === date ? null : current)}
@@ -78,7 +112,7 @@ export function InteractivePreview({ rows, onEdit, onMove, onDelete }: Props) {
         <header><strong>{day}, {date}</strong><span>{items.length}</span></header>
         <div className="preview-day-items">
           {items.map((row) => <div
-            className={`swipe-row${openRow === row.id ? ' is-open' : ''}`}
+            className={`swipe-row${openRow === row.id ? ' is-open' : ''}${touchDragging?.id === row.id ? ' is-being-dragged' : ''}`}
             key={row.id}
             onPointerDown={(event) => pointerDown(event, row)}
             onPointerUp={(event) => pointerUp(event, row)}
@@ -92,7 +126,14 @@ export function InteractivePreview({ rows, onEdit, onMove, onDelete }: Props) {
               onDragStart={(event) => startDrag(event, row)}
               onClick={() => openRow === row.id ? setOpenRow(null) : onEdit(row)}
             >
-              <span className="drag-handle" aria-hidden="true">⋮⋮</span>
+              <span
+                className="drag-handle"
+                aria-label={`Sposta ${row.title}`}
+                onPointerDown={(event) => touchDragStart(event, row)}
+                onPointerMove={touchDragMove}
+                onPointerUp={touchDragEnd}
+                onPointerCancel={touchDragEnd}
+              >⋮⋮</span>
               <b>{row.time}</b>
               <span className="preview-title">{row.title}</span>
               {row.info && <em>{row.info}</em>}
