@@ -10,6 +10,25 @@
   user-select: none;
 }
 
+.inline-time-input {
+  width: 5.9rem;
+  min-height: 2.2rem;
+  padding: .3rem .45rem;
+  border: 1px solid #b7c9d8;
+  border-radius: .65rem;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  font-weight: 800;
+  text-align: center;
+  touch-action: manipulation;
+}
+
+.inline-time-input:focus {
+  outline: 3px solid rgba(46,137,200,.2);
+  border-color: #2e89c8;
+}
+
 .interactive-preview.is-touch-dragging {
   cursor: grabbing;
 }
