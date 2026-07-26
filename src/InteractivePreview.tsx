@@ -36,6 +36,27 @@ function conflictKeys(rows: PreviewRow[]) {
   return new Set(Object.entries(counts).filter(([, count]) => count > 1).map(([key]) => key))
 }
 
+function saveTimeOverride(row: PreviewRow, time: string) {
+  if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(time) || time === row.time) return
+  let manual: PreviewRow[] = []
+  let hidden: string[] = []
+  try { manual = JSON.parse(localStorage.getItem('rms.manualRows') || '[]') } catch { manual = [] }
+  try { hidden = JSON.parse(localStorage.getItem('rms.hiddenGenerated') || '[]') } catch { hidden = [] }
+  const changed: PreviewRow = {
+    ...row,
+    id: row.source === 'regel' ? `time_${Date.now()}` : row.id,
+    time,
+    source: 'woche',
+  }
+  if (row.source === 'regel' && !hidden.includes(row.id)) hidden.push(row.id)
+  const index = manual.findIndex((item) => item.id === row.id)
+  if (index >= 0) manual[index] = changed
+  else manual.unshift(changed)
+  localStorage.setItem('rms.manualRows', JSON.stringify(manual))
+  localStorage.setItem('rms.hiddenGenerated', JSON.stringify(hidden))
+  location.reload()
+}
+
 export function InteractivePreview({ rows, onEdit, onMove, onDelete }: Props) {
   const [openRow, setOpenRow] = useState<string | null>(null)
   const [dragOverDate, setDragOverDate] = useState<string | null>(null)
@@ -79,12 +100,27 @@ export function InteractivePreview({ rows, onEdit, onMove, onDelete }: Props) {
   }
 
   function dateUnderPointer(x: number, y: number) {
-    return document.elementFromPoint(x, y)?.closest<HTMLElement>('[data-preview-date]')?.dataset.previewDate || null
+    const direct = document.elementFromPoint(x, y)?.closest<HTMLElement>('[data-preview-date]')?.dataset.previewDate
+    if (direct) return direct
+    const days = [...document.querySelectorAll<HTMLElement>('[data-preview-date]')]
+    const containingY = days.find((day) => {
+      const rect = day.getBoundingClientRect()
+      return y >= rect.top && y <= rect.bottom
+    })
+    if (containingY?.dataset.previewDate) return containingY.dataset.previewDate
+    let nearest: { date: string; distance: number } | null = null
+    for (const day of days) {
+      const rect = day.getBoundingClientRect()
+      const distance = y < rect.top ? rect.top - y : y > rect.bottom ? y - rect.bottom : 0
+      const date = day.dataset.previewDate
+      if (date && (!nearest || distance < nearest.distance)) nearest = { date, distance }
+    }
+    return nearest && nearest.distance < 100 ? nearest.date : null
   }
 
   function autoScroll(y: number) {
-    const edge = 90
-    const step = 18
+    const edge = 110
+    const step = 24
     if (y < edge) window.scrollBy({ top: -step, behavior: 'auto' })
     if (y > window.innerHeight - edge) window.scrollBy({ top: step, behavior: 'auto' })
   }
@@ -120,8 +156,7 @@ export function InteractivePreview({ rows, onEdit, onMove, onDelete }: Props) {
     if (!row) return
     event.preventDefault()
     event.stopPropagation()
-    const dateAtRelease = dateUnderPointer(event.clientX, event.clientY)
-    const targetDate = dateAtRelease || lastValidDate.current
+    const targetDate = dateUnderPointer(event.clientX, event.clientY) || lastValidDate.current
     touchRow.current = null
     lastValidDate.current = null
     setTouchDragging(null)
@@ -135,47 +170,16 @@ export function InteractivePreview({ rows, onEdit, onMove, onDelete }: Props) {
       const [date, day] = key.split('|')
       const activeDrop = dragOverDate === date
       const dayConflictCount = items.filter((row) => conflicts.has(`${row.date}|${row.time}`)).length
-      return <section
-        key={key}
-        data-preview-date={date}
-        className={`preview-day${activeDrop ? ' is-drop-target' : ''}`}
-        onDragOver={(event) => { event.preventDefault(); setDragOverDate(date) }}
-        onDragLeave={() => setDragOverDate((current) => current === date ? null : current)}
-        onDrop={(event) => dropOnDay(event, date)}
-      >
-        <header>
-          <strong>{day}, {date}</strong>
-          <span>{items.length}</span>
-          {dayConflictCount > 0 && <span className="day-conflict" title="Zeitkonflikt"><AlertTriangle size={15}/> {dayConflictCount}</span>}
-        </header>
+      return <section key={key} data-preview-date={date} className={`preview-day${activeDrop ? ' is-drop-target' : ''}`} onDragOver={(event) => { event.preventDefault(); setDragOverDate(date) }} onDragLeave={() => setDragOverDate((current) => current === date ? null : current)} onDrop={(event) => dropOnDay(event, date)}>
+        <header><strong>{day}, {date}</strong><span>{items.length}</span>{dayConflictCount > 0 && <span className="day-conflict" title="Zeitkonflikt"><AlertTriangle size={15}/> {dayConflictCount}</span>}</header>
         <div className="preview-day-items">
           {items.map((row) => {
             const hasConflict = conflicts.has(`${row.date}|${row.time}`)
-            return <div
-              className={`swipe-row${openRow === row.id ? ' is-open' : ''}${touchDragging?.id === row.id ? ' is-being-dragged' : ''}${hasConflict ? ' has-time-conflict' : ''}`}
-              key={row.id}
-              onPointerDown={(event) => pointerDown(event, row)}
-              onPointerUp={(event) => pointerUp(event, row)}
-            >
-              <div className="swipe-actions">
-                <button className="swipe-delete" onClick={() => onDelete(row)} aria-label={`Löschen: ${row.title}`}><Trash2 size={18}/><span>Löschen</span></button>
-              </div>
-              <button
-                className="preview-item"
-                draggable
-                onDragStart={(event) => startDrag(event, row)}
-                onClick={() => openRow === row.id ? setOpenRow(null) : onEdit(row)}
-              >
-                <span
-                  className="drag-handle"
-                  role="button"
-                  aria-label={`Verschieben: ${row.title}`}
-                  onPointerDown={(event) => touchDragStart(event, row)}
-                  onPointerMove={touchDragMove}
-                  onPointerUp={touchDragEnd}
-                  onPointerCancel={touchDragEnd}
-                >⋮⋮</span>
-                <b>{row.time}</b>
+            return <div className={`swipe-row${openRow === row.id ? ' is-open' : ''}${touchDragging?.id === row.id ? ' is-being-dragged' : ''}${hasConflict ? ' has-time-conflict' : ''}`} key={row.id} onPointerDown={(event) => pointerDown(event, row)} onPointerUp={(event) => pointerUp(event, row)}>
+              <div className="swipe-actions"><button className="swipe-delete" onClick={() => onDelete(row)} aria-label={`Löschen: ${row.title}`}><Trash2 size={18}/><span>Löschen</span></button></div>
+              <button className="preview-item" draggable onDragStart={(event) => startDrag(event, row)} onClick={() => openRow === row.id ? setOpenRow(null) : onEdit(row)}>
+                <span className="drag-handle" role="button" aria-label={`Verschieben: ${row.title}`} onPointerDown={(event) => touchDragStart(event, row)} onPointerMove={touchDragMove} onPointerUp={touchDragEnd} onPointerCancel={touchDragEnd}>⋮⋮</span>
+                <input className="inline-time-input" type="time" value={row.time} aria-label={`Uhrzeit ändern: ${row.title}`} onClick={(event) => event.stopPropagation()} onPointerDown={(event) => event.stopPropagation()} onChange={(event) => saveTimeOverride(row, event.target.value)}/>
                 <span className="preview-title">{row.title}</span>
                 {row.source === 'regel' && <span className="recurring-indicator" title="Wiederkehrende Sendung"><Repeat2 size={14}/></span>}
                 {hasConflict && <span className="time-conflict" title="Zwei oder mehr Sendungen beginnen zur gleichen Uhrzeit"><AlertTriangle size={15}/><span>Zeitkonflikt</span></span>}
