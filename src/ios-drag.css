@@ -42,3 +42,44 @@
   border-color: #0f4c81;
   background: #dff1fc;
 }
+
+.preview-day > header {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+}
+
+.day-conflict,
+.time-conflict,
+.recurring-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+}
+
+.day-conflict {
+  margin-left: auto;
+  padding: .25rem .5rem;
+  border-radius: 999px;
+  color: #8a3c00;
+  background: #fff0d8;
+  font-weight: 800;
+}
+
+.swipe-row.has-time-conflict .preview-item {
+  border-color: #d56a00;
+  background: #fffaf3;
+}
+
+.time-conflict {
+  padding: .2rem .45rem;
+  border-radius: 999px;
+  color: #8a3c00;
+  background: #fff0d8;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.recurring-indicator {
+  color: #0f4c81;
+}
