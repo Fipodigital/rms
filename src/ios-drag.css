@@ -1,0 +1,44 @@
+.drag-handle {
+  display: grid;
+  place-items: center;
+  min-width: 2rem;
+  min-height: 2rem;
+  margin: -.35rem;
+  padding: .35rem;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.interactive-preview.is-touch-dragging {
+  cursor: grabbing;
+}
+
+.touch-drag-banner {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  padding: .7rem 1rem;
+  border-radius: .9rem;
+  color: #fff;
+  background: #0f4c81;
+  text-align: center;
+  font-weight: 800;
+  box-shadow: 0 10px 24px rgba(15,76,129,.24);
+}
+
+.swipe-row.is-being-dragged .preview-item {
+  opacity: .45;
+  border-color: #2e89c8;
+  box-shadow: 0 12px 28px rgba(15,76,129,.2);
+}
+
+.interactive-preview.is-touch-dragging .preview-day {
+  transition: background .12s ease, border-color .12s ease;
+}
+
+.interactive-preview.is-touch-dragging .preview-day.is-drop-target {
+  border-width: 2px;
+  border-color: #0f4c81;
+  background: #dff1fc;
+}
